@@ -70,7 +70,7 @@ void menu1(){
             case '1':       //wczytanie z pliku
                 cout << "Podaj sciezke do pliku: ";
                 //cin >> filePath;
-                filePath = "C:\\Users\\szef\\CLionProjects\\SDiZO-Projekt-2\\data.txt";
+                filePath = "C:\\Users\\szef\\CLionProjects\\SDiZO-Projekt-2\\data1.txt";
                 if (file->readDataFromFile(filePath) == -1){
                     cout << "Nie mozna odczytac danych.\n";
                     break;
@@ -89,6 +89,17 @@ void menu1(){
                 else cout << "Graf nie zostal zaladowany." << endl;
                 break;
             case '3':       //algorytm 1
+                if (graph != nullptr){
+                    cout << "Macierz sasiedztwa: " << endl;
+                    graph->MSTKruskalAdjMatrix();
+                    graph->printMST();          //zrobic sortowanie - radix sort (po pierwszej a potem drugiej krawedzi)
+                    cout << "Lista sasiedztwa:" << endl;
+                    graph->MSTKruskalAdjList();
+                    graph->printMST();
+                }
+                else cout << "Graf nie zostal zaladowany." << endl;
+                break;
+
             case '4':       //algorytm 2
                 break;
         }

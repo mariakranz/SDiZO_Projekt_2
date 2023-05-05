@@ -6,30 +6,50 @@
 #define SDIZO_PROJEKT_2_GRAPHIMPL_H
 
 #include <string>
-//#include "LinkedList.h"
+
+struct setNode{
+    int rank, parent;
+};
+
+class Set{
+    setNode* setsTable;                 //tablica setow czyli drzew
+    int size;
+    void link(int x, int y);
+public:
+    Set(int verticesNumber);
+    ~Set();
+    void makeSet(int x);
+    void unionSets(int x, int y);
+    int findSet(int x);
+
+    void printSetsTable();
+
+};
+
+struct MSTNode{
+    int tail, head, cost;
+};
+
 
 struct listNode{
     int vertex, cost;
     listNode* next;
 };
 
-struct Graph{           //lista sasiedztwa
-    int verticesNumber;
-    listNode** adjacencyList;
-};
+//struct Graph{           //lista sasiedztwa
+//    int verticesNumber;
+//    listNode** adjacencyList;
+//};
 
 class GraphImpl {
     int verticesNumber;               //ilosc wierzcholkow
+    int edgesNumber;
     int** adjacencyMatrix;       //macierz sąsiedztwa - tablica dwuwymiarowa
 
-    listNode** tablicaList;
-    listNode* lista;
-    //listNode* tail;
+    listNode** listTable;     //tablicalist
 
-    //LinkedList* adjacencyList;         //wskaznik na tablice list sąsiedztwa
-
-    //node* tail;
-    void insertNodeToAdjList(int vertex, int cost);
+    MSTNode* MSTtab;
+    int sumMST();
 public:
     GraphImpl(int verticesNumber, int edgesNumber);        //dla MST
     GraphImpl(int verticesNumber, int edgesNumber, int startVertex);      //dla najkrotszej sciezki
@@ -40,6 +60,11 @@ public:
     void addEdge(int tail, int head, int cost, bool directed);           //tail - wierzcholek poczatkowy, head - wierzcholek koncowy, skierowany badz nieeskierowany
     void printAdjacencyMatrix();
     void printAdjacencyList();
+
+    void MSTKruskalAdjMatrix();
+    void MSTKruskalAdjList();
+    void printMST();
+    void sortMSTTab(int p, int r);              //quicksort po peirwszym wierzcholku
 
 };
 
