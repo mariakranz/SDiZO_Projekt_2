@@ -8,7 +8,7 @@ void menu();
 void menu1();
 void menu2();
 void menu3();
-int menu1FileRead(FileData* fileData, GraphImpl*& graph);
+void menu1FileRead(FileData* fileData, GraphImpl*& graph);
 
 
 int main() {
@@ -107,7 +107,7 @@ void menu1(){
     }while (choice != '0');
 }
 
-int menu1FileRead(FileData* fileData, GraphImpl*& graph){
+void menu1FileRead(FileData* fileData, GraphImpl*& graph){
 
     graph = new GraphImpl(fileData->getVerticesNumber(), fileData->getEdgesNumber());
     edge* data = fileData->getEdges();

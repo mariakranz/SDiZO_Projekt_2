@@ -129,3 +129,7 @@ PriorityQueue::PriorityQueue(int edgesNumber, int verticesNumber, listNode **lis
     }
     buildMinHeap();
 }
+
+PriorityQueue::~PriorityQueue() {
+    delete [] heapTable;
+}

@@ -20,29 +20,45 @@ GraphImpl::GraphImpl(int verticesNumber, int edgesNumber) {        //dla MST - k
         }
     }
 
-    listTable = new listNode * [verticesNumber];      //tworzenie tablicy list sąsiedztwa (tablica wskaznikow na strukture listNode)
+    adjacencyList = new listNode * [verticesNumber];      //tworzenie tablicy list sąsiedztwa (tablica wskaznikow na strukture listNode)
     for(int i = 0; i < verticesNumber; i++ ) {
-        listTable [i] = nullptr;
+        adjacencyList [i] = nullptr;
     }
 
     MSTtab = nullptr;
 }
 
 GraphImpl::~GraphImpl() {
+    for (int i = 0; i < verticesNumber; i++) {
+        delete [] adjacencyMatrix[i];
+    }
+    delete [] adjacencyMatrix;
 
+    for (int i = 0; i < verticesNumber; i++){
+        listNode* node = adjacencyList[i];
+        while(node){
+            listNode* tmpNode = node;
+            node = node->next;
+            delete tmpNode;
+        }
+    }
+
+    delete [] adjacencyList;
+
+    if (MSTtab) delete [] MSTtab;
 }
 
 void GraphImpl::addEdge(int tail, int head, int cost, bool directed) {
 
     adjacencyMatrix[tail][head] = cost;     //dodawanie do macierzy sasiedztwa
 
-    listNode* newNode = new listNode{head, cost, listTable[tail]};
-    listTable[tail] = newNode;
+    listNode* newNode = new listNode{head, cost, adjacencyList[tail]};
+    adjacencyList[tail] = newNode;
 
     if (!directed && tail != head){         //jesli wierzcholek ma krawedz z samym soba to nie tworz kolejnego wierzcholka (szczegolnie bylo by to widoczne w liscie sasiedztwa bo wartosc bylaby zduplikowana)
         adjacencyMatrix[head][tail] = cost;
-        listNode *nextNewNode = new listNode{tail, cost, listTable[head]};
-        listTable[head] = nextNewNode;
+        listNode *nextNewNode = new listNode{tail, cost, adjacencyList[head]};
+        adjacencyList[head] = nextNewNode;
 
     }
 }
@@ -74,7 +90,7 @@ void GraphImpl::printAdjacencyList() {
     for(int i = 0; i < verticesNumber; i++ )
     {
         std::cout << i;
-        listNode* node = listTable[i];
+        listNode* node = adjacencyList[i];
         while(node)
         {
             std::cout << "->";
@@ -119,7 +135,7 @@ void GraphImpl::MSTKruskalAdjList() {
 
     Set* set = new Set(verticesNumber);
     for (int i = 0; i < verticesNumber; i++) set->makeSet(i);       //dla kazdego wierzcholka tworzony jest set (z tym jednym wierzcholkiem)
-    PriorityQueue* queue = new PriorityQueue(edgesNumber, verticesNumber, listTable);
+    PriorityQueue* queue = new PriorityQueue(edgesNumber, verticesNumber, adjacencyList);
     for (int i = 0; i < edgesNumber; i++){
         queueElement edge = queue->extractMin();
         if (set->findSet(edge.tail) != set->findSet(edge.head)) {

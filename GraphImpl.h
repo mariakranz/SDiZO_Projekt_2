@@ -22,7 +22,7 @@ public:
     void unionSets(int x, int y);
     int findSet(int x);
 
-    void printSetsTable();
+    void printSetsTable();              //funkcja pomocnicza - wyswietlanie setow
 
 };
 
@@ -46,7 +46,7 @@ class GraphImpl {
     int edgesNumber;
     int** adjacencyMatrix;       //macierz sąsiedztwa - tablica dwuwymiarowa
 
-    listNode** listTable;     //tablicalist
+    listNode** adjacencyList;     //lista sąsiedztwa - tablica list (tablica wskaznikow na struktury)
 
     MSTNode* MSTtab;
     int sumMST();
