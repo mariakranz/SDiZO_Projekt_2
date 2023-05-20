@@ -50,6 +50,7 @@ void menu1(){
     GraphImpl *graph = nullptr;
     FileData* file = new FileData();
     string filePath;
+    int vert;
 
     do{
         cout << "\nWYZNACZANIE MST - MENU:\n"
@@ -93,7 +94,7 @@ void menu1(){
                     cout << "Macierz sasiedztwa: " << endl;
                     graph->MSTKruskalAdjMatrix();
                     graph->printMST();          //zrobic sortowanie - radix sort (po pierwszej a potem drugiej krawedzi)
-                    cout << "Lista sasiedztwa:" << endl;
+                    cout <<"Lista sasiedztwa:" << endl;
                     graph->MSTKruskalAdjList();
                     graph->printMST();
                 }
@@ -101,6 +102,17 @@ void menu1(){
                 break;
 
             case '4':       //algorytm 2
+                if(graph!= nullptr){
+                    cout << "Podaj wierzcholek:" << endl;
+                    cin >> vert;
+                    cout << "Macierz sasiedztwa: " << endl;
+                    graph->MSTPrimAdjMatrix(vert);
+                    graph->printMST();
+                    cout << "Lista sasiedztwa: " << endl;
+                    graph->MSTPrimAdjList(vert);
+                    graph->printMST();
+                }
+                else cout << "Graf nie zostal zaladowany." << endl;
                 break;
         }
         system("PAUSE");
@@ -114,7 +126,7 @@ void menu1FileRead(FileData* fileData, GraphImpl*& graph){
     for (int i = 0; i < fileData->getEdgesNumber(); i++) {
         edge edgeData = data[i];
         //cout << endl << edgeData.tail << "-" << edgeData.head << "-" << edgeData.cost << endl;
-        graph->addEdge(edgeData.tail, edgeData.head, edgeData.cost, false); //lepiej strukture tu zrobic, chociaz nwm bo wtedy bedzie private
+        graph->addEdge(edgeData.tail, edgeData.head, edgeData.cost); //lepiej strukture tu zrobic, chociaz nwm bo wtedy bedzie private
     }
 }
 

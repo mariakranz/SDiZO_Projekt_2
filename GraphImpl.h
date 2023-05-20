@@ -7,49 +7,33 @@
 
 #include <string>
 
-struct setNode{
-    int rank, parent;
-};
-
-class Set{
-    setNode* setsTable;                 //tablica setow czyli drzew
-    int size;
-    void link(int x, int y);
-public:
-    Set(int verticesNumber);
-    ~Set();
-    void makeSet(int x);
-    void unionSets(int x, int y);
-    int findSet(int x);
-
-    void printSetsTable();              //funkcja pomocnicza - wyswietlanie setow
-
-};
-
-struct MSTNode{
+struct MSTEdge{             //krawedzie drzewa
     int tail, head, cost;
 };
 
+//struct vertex{     //do algorytmu Prima
+//    int u, key, parent;
+//};
 
-struct listNode{
+struct setNode{             //do klasy Set i PriorityQueue
+    int rank, parent;
+};
+
+struct listNode{          //element listy sąsiedztwa
     int vertex, cost;
     listNode* next;
 };
 
-//struct Graph{           //lista sasiedztwa
-//    int verticesNumber;
-//    listNode** adjacencyList;
-//};
-
 class GraphImpl {
+    bool directed;
     int verticesNumber;               //ilosc wierzcholkow
     int edgesNumber;
-    int** adjacencyMatrix;       //macierz sąsiedztwa - tablica dwuwymiarowa
 
+    int** adjacencyMatrix;       //macierz sąsiedztwa - tablica dwuwymiarow
     listNode** adjacencyList;     //lista sąsiedztwa - tablica list (tablica wskaznikow na struktury)
 
-    MSTNode* MSTtab;
-    int sumMST();
+    MSTEdge* MSTtab;            //tablica z krawedziami drzewa
+    int sumMST;                 //suma wag krawedzi drzewa
 public:
     GraphImpl(int verticesNumber, int edgesNumber);        //dla MST
     GraphImpl(int verticesNumber, int edgesNumber, int startVertex);      //dla najkrotszej sciezki
@@ -57,15 +41,19 @@ public:
 
     ~GraphImpl();
 
-    void addEdge(int tail, int head, int cost, bool directed);           //tail - wierzcholek poczatkowy, head - wierzcholek koncowy, skierowany badz nieeskierowany
+    void addEdge(int tail, int head, int cost);           //tail - wierzcholek poczatkowy, head - wierzcholek koncowy, skierowany badz nieeskierowany
     void printAdjacencyMatrix();
     void printAdjacencyList();
 
+    void DFS();
+    bool isConnected();
+
     void MSTKruskalAdjMatrix();
     void MSTKruskalAdjList();
+    void MSTPrimAdjMatrix(int r);               //r - wierzcholek od ktorego zaczynamy wyznaczanie drzewa
+    void MSTPrimAdjList(int r);
     void printMST();
     void sortMSTTab(int p, int r);              //quicksort po peirwszym wierzcholku
-
 };
 
 
