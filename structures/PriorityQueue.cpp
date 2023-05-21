@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include "PriorityQueue.h"
+#include "../graphs/Graph.h"
 
 PriorityQueue::PriorityQueue(int edgesNumber, int verticesNumber, int** adjacencyMatrix) {
     this->size = edgesNumber;
@@ -13,7 +14,7 @@ PriorityQueue::PriorityQueue(int edgesNumber, int verticesNumber, int** adjacenc
     int elem = 0;
     for (int i = 0; i < verticesNumber; i++){
         for (int j = i; j < verticesNumber; j++){           //w grafie nieskierowanym macierz po przekątnej jest symetryczna
-            if(adjacencyMatrix[i][j] != INT_MAX){
+            if(adjacencyMatrix[i][j] != infinity){
                 heapTable[elem].tail = i;
                 heapTable[elem].head = j;
                 heapTable[elem].cost = adjacencyMatrix[i][j];
@@ -131,7 +132,7 @@ bool PriorityQueue::isEmpty() {
     return false;
 }
 
-int PriorityQueue::thisVerticleisInQueue(int v) {
+int PriorityQueue::thisVertexIsInQueue(int v) {
     for(int i = 0; i < size; i++){
         if(heapTable[i].head == v) return i;
     }
@@ -150,7 +151,7 @@ int PriorityQueue::updateKey(int vertex, int key) {
 }
 
 int PriorityQueue::updateValues(int vertex, int key, int parent) {
-    int index = thisVerticleisInQueue(vertex);
+    int index = thisVertexIsInQueue(vertex);
     if (index == -1) return -1;
     heapTable[index].cost = key;
     heapTable[index].tail = parent;
@@ -160,7 +161,7 @@ int PriorityQueue::updateValues(int vertex, int key, int parent) {
 }
 
 int PriorityQueue::vertexKeyValue(int vertex) {
-    int index = thisVerticleisInQueue(vertex);
+    int index = thisVertexIsInQueue(vertex);
     if (index == -1) return -1;
     return heapTable[index].cost;
 }

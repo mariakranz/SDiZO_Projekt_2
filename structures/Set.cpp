@@ -4,7 +4,6 @@
 
 #include <iostream>
 #include "Set.h"
-#include "GraphImpl.h"
 
 Set::Set(int verticesNumber) {
     size = verticesNumber;

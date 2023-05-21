@@ -6,11 +6,7 @@
 #define SDIZO_PROJEKT_2_SET_H
 
 
-//struct setNode{
-//    int rank, parent;
-//};
-
-#include "GraphImpl.h"
+#include "../graphs/Graph.h"
 
 class Set{
     setNode* setsTable;                 //tablica setow czyli drzew
