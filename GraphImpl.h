@@ -7,6 +7,8 @@
 
 #include <string>
 
+enum color{WHITE, GREY, BLACK}; //do DFS
+
 struct MSTEdge{             //krawedzie drzewa
     int tail, head, cost;
 };
@@ -34,6 +36,7 @@ class GraphImpl {
 
     MSTEdge* MSTtab;            //tablica z krawedziami drzewa
     int sumMST;                 //suma wag krawedzi drzewa
+    void DFSVisit(int u, color *&colors, int *&parents, int time);
 public:
     GraphImpl(int verticesNumber, int edgesNumber);        //dla MST
     GraphImpl(int verticesNumber, int edgesNumber, int startVertex);      //dla najkrotszej sciezki
@@ -45,8 +48,8 @@ public:
     void printAdjacencyMatrix();
     void printAdjacencyList();
 
-    void DFS();
-    bool isConnected();
+    int DFS();
+    bool isConnected();         //czy graf jest spojny
 
     void MSTKruskalAdjMatrix();
     void MSTKruskalAdjList();

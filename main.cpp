@@ -51,6 +51,7 @@ void menu1(){
     FileData* file = new FileData();
     string filePath;
     int vert;
+    bool isConnected = false;
 
     do{
         cout << "\nWYZNACZANIE MST - MENU:\n"
@@ -71,7 +72,7 @@ void menu1(){
             case '1':       //wczytanie z pliku
                 cout << "Podaj sciezke do pliku: ";
                 //cin >> filePath;
-                filePath = "C:\\Users\\szef\\CLionProjects\\SDiZO-Projekt-2\\data1.txt";
+                filePath = "C:\\Users\\szef\\CLionProjects\\SDiZO-Projekt-2\\data3.txt";
                 if (file->readDataFromFile(filePath) == -1){
                     cout << "Nie mozna odczytac danych.\n";
                     break;
@@ -80,6 +81,7 @@ void menu1(){
                 menu1FileRead(file, graph);
                 graph->printAdjacencyMatrix();
                 graph->printAdjacencyList();
+                isConnected = graph->isConnected();
                 break;
 
             case '2':       //wyswietlenie grafu
@@ -90,27 +92,31 @@ void menu1(){
                 else cout << "Graf nie zostal zaladowany." << endl;
                 break;
             case '3':       //algorytm 1
-                if (graph != nullptr){
-                    cout << "Macierz sasiedztwa: " << endl;
-                    graph->MSTKruskalAdjMatrix();
-                    graph->printMST();          //zrobic sortowanie - radix sort (po pierwszej a potem drugiej krawedzi)
-                    cout <<"Lista sasiedztwa:" << endl;
-                    graph->MSTKruskalAdjList();
-                    graph->printMST();
+                if (graph != nullptr) {
+                    if (isConnected) {
+                        cout << "Macierz sasiedztwa: " << endl;
+                        graph->MSTKruskalAdjMatrix();
+                        graph->printMST();          //zrobic sortowanie - radix sort (po pierwszej a potem drugiej krawedzi)
+                        cout << "Lista sasiedztwa:" << endl;
+                        graph->MSTKruskalAdjList();
+                        graph->printMST();
+                    }else cout  << "Graf jest niespojny!" << endl;
                 }
                 else cout << "Graf nie zostal zaladowany." << endl;
                 break;
 
             case '4':       //algorytm 2
-                if(graph!= nullptr){
-                    cout << "Podaj wierzcholek:" << endl;
-                    cin >> vert;
-                    cout << "Macierz sasiedztwa: " << endl;
-                    graph->MSTPrimAdjMatrix(vert);
-                    graph->printMST();
-                    cout << "Lista sasiedztwa: " << endl;
-                    graph->MSTPrimAdjList(vert);
-                    graph->printMST();
+                if(graph!= nullptr) {
+                    if (isConnected) {
+                        cout << "Podaj wierzcholek:" << endl;
+                        cin >> vert;
+                        cout << "Macierz sasiedztwa: " << endl;
+                        graph->MSTPrimAdjMatrix(vert);      //mozna by dodac inf zwrotna jesli wierzcholek jest nieprawidlowwy
+                        graph->printMST();
+                        cout << "Lista sasiedztwa: " << endl;
+                        graph->MSTPrimAdjList(vert);
+                        graph->printMST();
+                    } else cout << "Graf jest niespojny!" << endl;
                 }
                 else cout << "Graf nie zostal zaladowany." << endl;
                 break;
@@ -125,7 +131,6 @@ void menu1FileRead(FileData* fileData, GraphImpl*& graph){
     edge* data = fileData->getEdges();
     for (int i = 0; i < fileData->getEdgesNumber(); i++) {
         edge edgeData = data[i];
-        //cout << endl << edgeData.tail << "-" << edgeData.head << "-" << edgeData.cost << endl;
         graph->addEdge(edgeData.tail, edgeData.head, edgeData.cost); //lepiej strukture tu zrobic, chociaz nwm bo wtedy bedzie private
     }
 }

@@ -16,8 +16,6 @@ GraphImpl::GraphImpl(int verticesNumber, int edgesNumber) {        //dla MST - k
     for (int i = 0; i < verticesNumber; i++) {
         adjacencyMatrix[i] = new int [verticesNumber];
         for (int j = 0; j < verticesNumber; j++){
-            //adjacencyMatrix[i][j] = std::numeric_limits<int>::infinity();     //dla int funkcja infinity zwraca 0
-            //adjacencyMatrix[i][j] = std::numeric_limits<int>::max();
             adjacencyMatrix[i][j] = INT_MAX;                //ustaw domyslnie wszedzie brak polaczen
         }
     }
@@ -280,4 +278,51 @@ void GraphImpl::MSTPrimAdjList(int r) {
     delete [] V;
     delete [] visitedVertices;
 
+}
+
+int GraphImpl::DFS() {
+    int numTrees = 0;   //ilosc drzew, czyli osobnych sciezek
+
+    color* colors = new color[verticesNumber];
+    int* parents = new int[verticesNumber];
+    int  time;
+
+    for (int i = 0; i < verticesNumber; i++){
+        colors[i] = WHITE;
+        parents[i] = -1;
+    }
+    time = 0;
+
+    for (int i = 0; i < verticesNumber; i++){
+        if (colors[i] == WHITE) {
+            DFSVisit(i, colors, parents, time);
+            numTrees++;
+        }
+    }
+    return numTrees;
+}
+
+void GraphImpl::DFSVisit(int u, color *&colors, int *&parents, int time) {
+    int *d = new int[verticesNumber];
+    int *f = new int[verticesNumber];
+
+    colors[u] = GREY;
+    d[u] = time = time+1;
+    listNode* v = adjacencyList[u];
+    while(v){
+        if(colors[v->vertex] == WHITE){
+            parents[v->vertex] = u;
+            DFSVisit(v->vertex, colors, parents, time);
+        }
+        v = v->next;
+    }
+    colors[u] = BLACK;
+    f[u] = time = time+1;
+
+
+}
+
+bool GraphImpl::isConnected() {
+    if (DFS() > 1) return false;
+    return true;
 }
