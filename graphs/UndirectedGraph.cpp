@@ -2,7 +2,6 @@
 // Created by szef on 21.05.2023.
 //
 
-#include <iostream>
 #include "UndirectedGraph.h"
 #include "../structures/PriorityQueue.h"
 
@@ -73,7 +72,6 @@ MSTEdge *UndirectedGraph::MSTKruskalAdjMatrix() {
     MSTEdge* MSTtab = new MSTEdge [verticesNumber - 1];        //kazde drzewo rozpinajace ma dokladnie |V|-1 krawedzi
     int elem = 0;
 
-
     Set* set = new Set(verticesNumber);
     for (int i = 0; i < verticesNumber; i++) set->makeSet(i);       //dla kazdego wierzcholka tworzony jest set (z tym jednym wierzcholkiem)
     PriorityQueue* queue = new PriorityQueue(edgesNumber,verticesNumber,adjacencyMatrix);
@@ -107,7 +105,7 @@ MSTEdge *UndirectedGraph::MSTKruskalAdjList() {
 }
 
 MSTEdge *UndirectedGraph::MSTPrimAdjMatrix(int r) {
-    if (r < 0 || r > verticesNumber) return nullptr;
+    if (r < 0 || r > verticesNumber - 1) return nullptr;
     MSTEdge* MSTtab = new MSTEdge [verticesNumber-1];
     setNode* V = new setNode[verticesNumber];           //zbior wierzcholkow - indeks oznacza numer wierzcholka
 
@@ -152,7 +150,7 @@ MSTEdge *UndirectedGraph::MSTPrimAdjMatrix(int r) {
 }
 
 MSTEdge *UndirectedGraph::MSTPrimAdjList(int r) {
-    if (r < 0 || r > verticesNumber) return nullptr;
+    if (r < 0 || r > verticesNumber - 1) return nullptr;
     MSTEdge* MSTtab = new MSTEdge [verticesNumber-1];
     setNode* V = new setNode[verticesNumber];   //zbior wierzcholkow - indeks oznacza numer wierzcholka
 
@@ -192,11 +190,6 @@ MSTEdge *UndirectedGraph::MSTPrimAdjList(int r) {
             v = v->next;
         }
     }
-
-//    std::cout << "Wierzcholki: " << std::endl;                    //mozna zmienic ze zwraca V tak, jak w al Dijkstry, ale wtedy problem prz printowaniu, trzeba by zmienic tez w algorytmie Kruskala
-//    for (int i =0; i < verticesNumber; i++){
-//        std::cout << i << ": " << V[i].parent << " - " << V[i].rank << std:: endl;
-//    }
     delete [] V;
     delete [] visitedVertices;
     return MSTtab;

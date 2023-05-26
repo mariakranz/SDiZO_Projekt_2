@@ -32,6 +32,7 @@ public:
     ~Graph();
     int** getAdjMatrix();
     listNode** getAdjList();
+    int getVeritcesNunber();
 };
 
 

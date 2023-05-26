@@ -38,7 +38,7 @@ void GraphRepresentations::printAdjacencyList(listNode **listTable, int vertices
         while(node)
         {
             std::cout << "->";
-            std::cout << node->vertex << ":" << node->cost;
+            std::cout << node->vertex << "(" << node->cost << ")";
             node = node->next;
         }
         std::cout << std::endl;

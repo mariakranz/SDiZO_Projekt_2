@@ -33,7 +33,7 @@ void ShortestPathMenu::menu(){
             case '1':       //wczytanie z pliku
                 cout << "Podaj sciezke do pliku: ";
                 //cin >> filePath;
-                filePath = "C:\\Users\\szef\\CLionProjects\\SDiZO-Projekt-2\\data\\data6.txt";
+                filePath = "C:\\Users\\szef\\CLionProjects\\SDiZO-Projekt-2\\data\\data7.txt";
                 if (file->readDataFromFile(filePath) == -1){
                     cout << "Nie mozna odczytac danych.\n";
                     break;
@@ -63,9 +63,14 @@ void ShortestPathMenu::menu(){
                 break;
 
             case '4':       //algorytm 2
+                if(graph != nullptr){
+                    cout << "Algorytm Bellmana-Forda." << endl;
+                    cout << "Macierz sasiedztwa:" << endl;
+                    printShortestPath(graph->BellmanFordAdjMatrix(source));
+                    cout << "Lista sasiedztwa:" << endl;
+                    printShortestPath(graph->BellmanFordAdjList(source));
+                }else cout << "Graf nie zostal zaladowany." << endl;
                 break;
-
-
         }
         system("PAUSE");
     }while (choice != '0');
@@ -92,7 +97,7 @@ void ShortestPathMenu::printShortestPath(setNode* V) {
     }
     std::cout << "Znajdowanie najkrotszej sciezki: " << std::endl;
     std::cout << "Start = " << source << std::endl;
-    std::cout << "End  " << "Dist " << "Path" << std::endl;
+    std::cout << "End  " << "Dist " << " Path" << std::endl;
     for (int i = 0; i < verticesNum; i++) {
         std::cout.width(4);
         std::cout << i << "|";

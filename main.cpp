@@ -2,14 +2,17 @@
 #include "data/FileData.h"
 #include "interfaces/ShortestPathMenu.h"
 #include "interfaces/MSTMenu.h"
+#include "data/TimeTests.h"
 
 using namespace std;
 
 void menu();
 void menu3();
+void tests();
 
 int main() {
     menu();
+    //tests();
     return 0;
 }
 
@@ -70,4 +73,18 @@ void menu3(){
 
         }
     }while (choice != '0');
+}
+
+void tests(){
+    TimeTests* test = new TimeTests();
+    test->testKruskalMatrix();
+    test->testKruskalList();
+
+//    test->testPrimMatrix();
+//    test->testPrimList();
+//
+//    test->testDijkstraMatrix();
+//    test->testDijkstraList();
+
+
 }

@@ -21,6 +21,9 @@ public:
     setNode* DijkstraAdjMatrix(int source);
     setNode* DijkstraAdjList(int source);
 
+    setNode* BellmanFordAdjMatrix(int source);
+    setNode* BellmanFordAdjList(int source);
+
 };
 
 
