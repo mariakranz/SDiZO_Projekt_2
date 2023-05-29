@@ -11,10 +11,28 @@ DirectedGraph::DirectedGraph(int verticesNumber, int edgesNumber) : Graph(vertic
 }
 
 void DirectedGraph::addEdge(int tail, int head, int cost) {
-    adjacencyMatrix[tail][head] = cost;     //dodawanie do macierzy sasiedztwa
+    if (head == tail) {
+        edgesNumber--;                                                              //zalozenia, takie jak przy grafie nieskierowanym
+        return;
+    }
+    adjacencyMatrix[tail][head] = cost;                                             //dodawanie do macierzy sasiedztwa
 
-    listNode* newNode = new listNode{head, cost, adjacencyList[tail]};
+    if (changeAlreadyDefinedEdge(tail, head, cost)) return;                         //jesli znajdzie juz taka krawedz, to ja nadpisuje
+    listNode* newNode = new listNode{head, cost, adjacencyList[tail]};  //w przeciwnym wypadku tworzy nowy wezel
     adjacencyList[tail] = newNode;
+}
+
+bool DirectedGraph::changeAlreadyDefinedEdge(int tail, int head, int cost) {
+    listNode* n = adjacencyList[tail];
+    while(n) {
+        if (n->vertex == head) {                     //jesli zanjdzie juz definicje danej krawedzi
+            n->cost = cost;                         //nadpisuje wage, nowa wartoscia
+            edgesNumber--;
+            return true;
+        }
+        n = n->next;
+    }
+    return false;
 }
 
 setNode *DirectedGraph::DijkstraAdjMatrix(int source) {

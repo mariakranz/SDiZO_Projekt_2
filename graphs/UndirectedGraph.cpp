@@ -11,16 +11,36 @@ UndirectedGraph::UndirectedGraph(int verticesNumber, int edgesNumber) : Graph(ve
 }
 
 void UndirectedGraph::addEdge(int tail, int head, int cost) {
+    if(tail == head) {
+        edgesNumber--;                                                                  //zalozenie, ze przy inicjalizacji podawana jest calkowita liczba krawedzi (nie uwzgledniajac powtorek i krawedzi wierzcholkow samych ze soba)
+        return;                                                                         //jesli rowne to nie dodawaj
+    }
     adjacencyMatrix[tail][head] = cost;                                                 //dodawanie do macierzy sasiedztwa
+    adjacencyMatrix[head][tail] = cost;
 
+    if(changeAlreadyDefinedEdge(tail, head, cost)) return;                              //jesli taka krawedz byla juz w grafie to ja nadpisz
+                                                                                        //w przeciwnym wypadku stworz nowy wezel (nowe polaczenie)
     listNode* newNode = new listNode{head, cost, adjacencyList[tail]};
     adjacencyList[tail] = newNode;
+    listNode *nextNewNode = new listNode{tail, cost, adjacencyList[head]};
+    adjacencyList[head] = nextNewNode;
+}
 
-    if (tail != head){                                                                  //jesli wierzcholek ma krawedz z samym soba to nie tworz kolejnego wierzcholka (szczegolnie bylo by to widoczne w liscie sasiedztwa bo wartosc bylaby zduplikowana)
-        adjacencyMatrix[head][tail] = cost;
-        listNode *nextNewNode = new listNode{tail, cost, adjacencyList[head]};
-        adjacencyList[head] = nextNewNode;
+bool UndirectedGraph::changeAlreadyDefinedEdge(int tail, int head, int cost) {
+    listNode* n = adjacencyList[tail];
+    while(n){
+        if(n->vertex == head) {                     //jesli zanjdzie juz definicje danej krawedzi
+            n->cost = cost;                         //nadpisuje wage, nowa wartoscia
+
+            listNode* p = adjacencyList[head];
+            while(p->vertex != tail)p = p->next;    //ustaw p na element do nadpisania
+            p->cost = cost;                         //nadpisuje wage
+            edgesNumber--;
+            return true;
+        }
+        n = n->next;
     }
+    return false;
 }
 
 void UndirectedGraph::DFSVisit(int u, color *&colors, int *&parents, int time) {

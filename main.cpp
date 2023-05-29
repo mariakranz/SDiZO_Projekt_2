@@ -10,6 +10,7 @@ void menu();
 void tests();
 
 int main() {
+    cout << "Autorka: Maria Kranz, 30.05.2023\n";
     menu();
     //tests();
     return 0;

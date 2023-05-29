@@ -21,6 +21,7 @@ public:
     UndirectedGraph(int verticesNumber, int edgesNumber);           //dla MST
 
     void addEdge(int tail, int head, int cost);                     //tail - wierzcholek poczatkowy, head - wierzcholek koncowy
+    bool changeAlreadyDefinedEdge(int tail, int head, int cost);
 
     int DFS();
     bool isConnected();                                             //czy graf jest spojny

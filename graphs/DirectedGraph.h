@@ -13,6 +13,7 @@ class DirectedGraph : public Graph {
 public:
     DirectedGraph(int verticesNumber, int edgesNumber);
     void addEdge(int tail, int head, int cost);           //tail - wierzcholek poczatkowy, head - wierzcholek koncowy
+    bool changeAlreadyDefinedEdge(int tail, int head, int cost);
 
     bool areAllWagesPositive();                     //dla algorytmu Dijkstry wszystkie wagi musza byc nieujemne
     setNode* DijkstraAdjMatrix(int source);
