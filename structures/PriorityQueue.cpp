@@ -4,16 +4,14 @@
 
 #include <iostream>
 #include "PriorityQueue.h"
-#include "../graphs/Graph.h"
 
 PriorityQueue::PriorityQueue(int edgesNumber, int verticesNumber, int** adjacencyMatrix) {
     this->size = edgesNumber;
-    //heapTable = new queueElement[size];
     heapTable = new MSTEdge[size];
 
     int elem = 0;
     for (int i = 0; i < verticesNumber; i++){
-        for (int j = i; j < verticesNumber; j++){           //w grafie nieskierowanym macierz po przekątnej jest symetryczna
+        for (int j = i; j < verticesNumber; j++){                       //w grafie nieskierowanym macierz po przekątnej jest symetryczna
             if(adjacencyMatrix[i][j] != infinity){
                 heapTable[elem].tail = i;
                 heapTable[elem].head = j;
@@ -33,7 +31,7 @@ PriorityQueue::PriorityQueue(int edgesNumber, int verticesNumber, listNode **lis
     int elem = 0;
     for (int i = 0; i < verticesNumber; i++){
         listNode* node = listTable[i];
-        while (node){       //trzeba najpierw sprawdzic czy nie ma juz takiego wierzcholka w tablicy tylko z zamienionymi wierzcholkami
+        while (node){
             if (node->vertex >= i) {
                 heapTable[elem].tail = i;
                 heapTable[elem].head = node->vertex;
@@ -44,6 +42,22 @@ PriorityQueue::PriorityQueue(int edgesNumber, int verticesNumber, listNode **lis
         }
     }
     buildMinHeap();
+}
+
+PriorityQueue::PriorityQueue(int verticesNumber, setNode *vertices) {
+    this->size = verticesNumber;
+    heapTable = new MSTEdge[size];
+
+    for(int i = 0; i < verticesNumber; i++){
+        heapTable[i].head = i;
+        heapTable[i].tail = vertices[i].parent;
+        heapTable[i].cost = vertices[i].rank;
+    }
+    buildMinHeap();
+}
+
+PriorityQueue::~PriorityQueue() {
+    delete [] heapTable;
 }
 
 void PriorityQueue::buildMinHeap() {
@@ -66,7 +80,6 @@ void PriorityQueue::heapify(int index) {
         lowest = r;
     }
     if (lowest != index){
-//        queueElement tmpElem = heapTable[lowest];
         MSTEdge tmpElem = heapTable[lowest];
         heapTable[lowest] = heapTable[index];
         heapTable[index] = tmpElem;
@@ -86,16 +99,15 @@ int PriorityQueue::right(int index) {
     return 2 * index + 2;
 }
 
-
 MSTEdge PriorityQueue::extractMin() {
     if(size<1) return {};
     MSTEdge minElem = heapTable[0];
     heapTable[0] = heapTable[size-1];
     size--;
     heapify(0);
-    MSTEdge *tmp = new MSTEdge[size];       //utworz nowy kopiec (o rozmiar mniejszy)
+    MSTEdge *tmp = new MSTEdge[size];               //utworz nowy kopiec (o rozmiar mniejszy)
     for(int i = 0; i<size; i++){
-        tmp[i] = heapTable[i];      //przepisz elementy ze starego kopca do nowego kopca
+        tmp[i] = heapTable[i];                      //przepisz elementy ze starego kopca do nowego kopca
     }
     delete [] heapTable;
     heapTable = tmp;
@@ -110,23 +122,6 @@ void PriorityQueue::printHeap() {
     }
 }
 
-
-PriorityQueue::~PriorityQueue() {
-    delete [] heapTable;
-}
-
-PriorityQueue::PriorityQueue(int verticesNumber, setNode *vertices) {
-    this->size = verticesNumber;
-    heapTable = new MSTEdge[size];
-
-    for(int i = 0; i < verticesNumber; i++){
-        heapTable[i].head = i;
-        heapTable[i].tail = vertices[i].parent;
-        heapTable[i].cost = vertices[i].rank;
-    }
-    buildMinHeap();
-}
-
 bool PriorityQueue::isEmpty() {
     if (size == 0) return true;
     return false;
@@ -135,17 +130,6 @@ bool PriorityQueue::isEmpty() {
 int PriorityQueue::thisVertexIsInQueue(int v) {
     for(int i = 0; i < size; i++){
         if(heapTable[i].head == v) return i;
-    }
-    return -1;
-}
-
-int PriorityQueue::updateKey(int vertex, int key) {
-    for(int i = 0; i < size; i++){
-        if (heapTable[i].head == vertex){
-            heapTable[i].cost = key;
-            heapify(i);
-            return i;
-        }
     }
     return -1;
 }
@@ -160,8 +144,3 @@ int PriorityQueue::updateValues(int vertex, int key, int parent) {
     return 0;
 }
 
-int PriorityQueue::vertexKeyValue(int vertex) {
-    int index = thisVertexIsInQueue(vertex);
-    if (index == -1) return -1;
-    return heapTable[index].cost;
-}

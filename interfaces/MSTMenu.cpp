@@ -60,10 +60,10 @@ void MSTMenu::menu() {
                 break;
             case '3':       //algorytm 1
                 if (graph != nullptr) {
-                    if (isConnected) {              //jeszcze mozna zrobic sprawdzenie czy jest nieskierowany
+                    if (isConnected) {
                         cout << "Algorytm Kruskala." << endl;
                         cout << "Macierz sasiedztwa: " << endl;
-                        printMST(graph->MSTKruskalAdjMatrix(), verticesNum);          //zrobic sortowanie - radix sort (po pierwszej a potem drugiej krawedzi)
+                        printMST(graph->MSTKruskalAdjMatrix(), verticesNum);
                         cout << "Lista sasiedztwa:" << endl;
                         printMST(graph->MSTKruskalAdjList(), verticesNum);
                     }else cout  << "Graf jest niespojny!" << endl;
@@ -78,7 +78,7 @@ void MSTMenu::menu() {
                         cout << "Podaj wierzcholek:" << endl;
                         cin >> vert;
                         cout << "Macierz sasiedztwa: " << endl;
-                        printMST(graph->MSTPrimAdjMatrix(vert), verticesNum);      //mozna by dodac inf zwrotna jesli wierzcholek jest nieprawidlowwy
+                        printMST(graph->MSTPrimAdjMatrix(vert), verticesNum);
                         cout << "Lista sasiedztwa: " << endl;
                         printMST(graph->MSTPrimAdjList(vert), verticesNum);
                     } else cout << "Graf jest niespojny!" << endl;
@@ -99,7 +99,7 @@ void MSTMenu::insertDataToTheGraph(FileData *fileData, UndirectedGraph *&graph) 
     edge* data = fileData->getEdges();
     for (int i = 0; i < fileData->getEdgesNumber(); i++) {
         edge edgeData = data[i];
-        graph->addEdge(edgeData.tail, edgeData.head, edgeData.cost); //lepiej strukture tu zrobic, chociaz nwm bo wtedy bedzie private
+        graph->addEdge(edgeData.tail, edgeData.head, edgeData.cost);
     }
 }
 

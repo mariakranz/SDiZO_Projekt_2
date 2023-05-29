@@ -11,12 +11,12 @@ UndirectedGraph::UndirectedGraph(int verticesNumber, int edgesNumber) : Graph(ve
 }
 
 void UndirectedGraph::addEdge(int tail, int head, int cost) {
-    adjacencyMatrix[tail][head] = cost;     //dodawanie do macierzy sasiedztwa
+    adjacencyMatrix[tail][head] = cost;                                                 //dodawanie do macierzy sasiedztwa
 
     listNode* newNode = new listNode{head, cost, adjacencyList[tail]};
     adjacencyList[tail] = newNode;
 
-    if (tail != head){         //jesli wierzcholek ma krawedz z samym soba to nie tworz kolejnego wierzcholka (szczegolnie bylo by to widoczne w liscie sasiedztwa bo wartosc bylaby zduplikowana)
+    if (tail != head){                                                                  //jesli wierzcholek ma krawedz z samym soba to nie tworz kolejnego wierzcholka (szczegolnie bylo by to widoczne w liscie sasiedztwa bo wartosc bylaby zduplikowana)
         adjacencyMatrix[head][tail] = cost;
         listNode *nextNewNode = new listNode{tail, cost, adjacencyList[head]};
         adjacencyList[head] = nextNewNode;
@@ -42,7 +42,7 @@ void UndirectedGraph::DFSVisit(int u, color *&colors, int *&parents, int time) {
 }
 
 int UndirectedGraph::DFS() {
-    int numTrees = 0;   //ilosc drzew, czyli osobnych sciezek
+    int numTrees = 0;                                                       //ilosc drzew, czyli osobnych sciezek
 
     color* colors = new color[verticesNumber];
     int* parents = new int[verticesNumber];
@@ -69,11 +69,11 @@ bool UndirectedGraph::isConnected() {
 }
 
 MSTEdge *UndirectedGraph::MSTKruskalAdjMatrix() {
-    MSTEdge* MSTtab = new MSTEdge [verticesNumber - 1];        //kazde drzewo rozpinajace ma dokladnie |V|-1 krawedzi
+    MSTEdge* MSTtab = new MSTEdge [verticesNumber - 1];                                 //kazde drzewo rozpinajace ma dokladnie |V|-1 krawedzi
     int elem = 0;
 
     Set* set = new Set(verticesNumber);
-    for (int i = 0; i < verticesNumber; i++) set->makeSet(i);       //dla kazdego wierzcholka tworzony jest set (z tym jednym wierzcholkiem)
+    for (int i = 0; i < verticesNumber; i++) set->makeSet(i);                       //dla kazdego wierzcholka tworzony jest set (z tym jednym wierzcholkiem)
     PriorityQueue* queue = new PriorityQueue(edgesNumber,verticesNumber,adjacencyMatrix);
     for (int i = 0; i < edgesNumber; i++){
         MSTEdge edge = queue->extractMin();
@@ -87,11 +87,11 @@ MSTEdge *UndirectedGraph::MSTKruskalAdjMatrix() {
 }
 
 MSTEdge *UndirectedGraph::MSTKruskalAdjList() {
-    MSTEdge* MSTtab = new MSTEdge [verticesNumber - 1];        //kazde drzewo rozpinajace ma dokladnie |V|-1 krawedzi
+    MSTEdge* MSTtab = new MSTEdge [verticesNumber - 1];                             //kazde drzewo rozpinajace ma dokladnie |V|-1 krawedzi
     int elem = 0;
 
     Set* set = new Set(verticesNumber);
-    for (int i = 0; i < verticesNumber; i++) set->makeSet(i);       //dla kazdego wierzcholka tworzony jest set (z tym jednym wierzcholkiem)
+    for (int i = 0; i < verticesNumber; i++) set->makeSet(i);                   //dla kazdego wierzcholka tworzony jest set (z tym jednym wierzcholkiem)
     PriorityQueue* queue = new PriorityQueue(edgesNumber, verticesNumber, adjacencyList);
     for (int i = 0; i < edgesNumber; i++){
         MSTEdge edge = queue->extractMin();
@@ -107,9 +107,9 @@ MSTEdge *UndirectedGraph::MSTKruskalAdjList() {
 MSTEdge *UndirectedGraph::MSTPrimAdjMatrix(int r) {
     if (r < 0 || r > verticesNumber - 1) return nullptr;
     MSTEdge* MSTtab = new MSTEdge [verticesNumber-1];
-    setNode* V = new setNode[verticesNumber];           //zbior wierzcholkow - indeks oznacza numer wierzcholka
+    setNode* V = new setNode[verticesNumber];                                       //zbior wierzcholkow - indeks oznacza numer wierzcholka
 
-    bool* visitedVertices = new bool[verticesNumber];    //zbior wierzcholkow ktorych juz nie ma w kolejce, zeby nie musiec iterowac po tablicy kopca
+    bool* visitedVertices = new bool[verticesNumber];                               //zbior wierzcholkow ktorych juz nie ma w kolejce, zeby nie musiec iterowac po tablicy kopca
     for(int i = 0; i < verticesNumber; i++){
         visitedVertices[i] = false;
     }
@@ -152,9 +152,9 @@ MSTEdge *UndirectedGraph::MSTPrimAdjMatrix(int r) {
 MSTEdge *UndirectedGraph::MSTPrimAdjList(int r) {
     if (r < 0 || r > verticesNumber - 1) return nullptr;
     MSTEdge* MSTtab = new MSTEdge [verticesNumber-1];
-    setNode* V = new setNode[verticesNumber];   //zbior wierzcholkow - indeks oznacza numer wierzcholka
+    setNode* V = new setNode[verticesNumber];                               //zbior wierzcholkow - indeks oznacza numer wierzcholka
 
-    bool* visitedVertices = new bool[verticesNumber];    //zbior wierzcholkow ktorych juz nie ma w kolejce, zeby nie musiec iterowac po tablicy kopca
+    bool* visitedVertices = new bool[verticesNumber];                       //zbior wierzcholkow ktorych juz nie ma w kolejce, zeby nie musiec iterowac po tablicy kopca
     for(int i = 0; i < verticesNumber; i++){
         visitedVertices[i] = false;
     }
@@ -175,7 +175,7 @@ MSTEdge *UndirectedGraph::MSTPrimAdjList(int r) {
         int u = edgeU.head;
         visitedVertices[u] = true;
 
-        if (first) first = false;       //pierwszego wierzcholka nie dodawaj do listy krawedzi
+        if (first) first = false;                                               //pierwszego wierzcholka nie dodawaj do listy krawedzi
         else {
             MSTtab[elem] = edgeU;
             elem++;

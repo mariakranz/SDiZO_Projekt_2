@@ -27,7 +27,7 @@ setNode *DirectedGraph::DijkstraAdjMatrix(int source) {
     V[source].rank = 0;
     V[source].parent = source;
 
-    PriorityQueue* queue = new PriorityQueue(verticesNumber, V);    //kluczami sa wartosci d
+    PriorityQueue* queue = new PriorityQueue(verticesNumber, V);    //kluczami sa wartosci d (Cormen)
     while (!queue->isEmpty()){
         MSTEdge u = queue->extractMin();
         for (int v = 0; v < verticesNumber; v++){
@@ -54,7 +54,7 @@ setNode *DirectedGraph::DijkstraAdjList(int source) {
     V[source].rank = 0;
     V[source].parent = source;
 
-    PriorityQueue* queue = new PriorityQueue(verticesNumber, V);    //kluczami sa wartosci d
+    PriorityQueue* queue = new PriorityQueue(verticesNumber, V);    //kluczami sa wartosci d (Cormen)
 
     while (!queue->isEmpty()){
         MSTEdge u = queue->extractMin();

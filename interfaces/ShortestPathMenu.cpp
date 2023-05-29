@@ -8,6 +8,11 @@
 
 using namespace std;
 
+ShortestPathMenu::ShortestPathMenu() {
+    source = -1;
+    verticesNum = 0;
+}
+
 void ShortestPathMenu::menu(){
     char choice;
     DirectedGraph* graph = nullptr;
@@ -32,8 +37,7 @@ void ShortestPathMenu::menu(){
                 break;
             case '1':       //wczytanie z pliku
                 cout << "Podaj sciezke do pliku: ";
-                //cin >> filePath;
-                filePath = "C:\\Users\\szef\\CLionProjects\\SDiZO-Projekt-2\\data\\data7.txt";
+                cin >> filePath;
                 if (file->readDataFromFile(filePath) == -1){
                     cout << "Nie mozna odczytac danych.\n";
                     break;
@@ -110,11 +114,6 @@ void ShortestPathMenu::printShortestPath(setNode* V) {
         }
         std::cout << std::endl;
     }
-}
-
-ShortestPathMenu::ShortestPathMenu() {
-    source = -1;
-    verticesNum = 0;
 }
 
 void ShortestPathMenu::printPath(int startVertex, int endVertex, setNode* V) {

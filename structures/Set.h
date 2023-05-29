@@ -9,7 +9,7 @@
 #include "../graphs/Graph.h"
 
 class Set{
-    setNode* setsTable;                 //tablica setow czyli drzew
+    setNode* setsTable;                     //tablica setow czyli drzew
     int size;
     void link(int x, int y);
 public:
@@ -19,7 +19,7 @@ public:
     void unionSets(int x, int y);
     int findSet(int x);
 
-    void printSetsTable();              //funkcja pomocnicza - wyswietlanie setow
+    void printSetsTable();                  //funkcja pomocnicza - wyswietlanie setow
 
 };
 

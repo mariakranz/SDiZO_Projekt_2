@@ -4,7 +4,6 @@
 
 #include <iostream>
 #include "GraphRepresentations.h"
-#include "../graphs/Graph.h"
 
 void GraphRepresentations::printAdjacencyMatrix(int **table, int verticesNum) {
     std::cout << "Macierz sasiedztwa:" << std::endl;
