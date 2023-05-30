@@ -70,9 +70,15 @@ void ShortestPathMenu::menu(){
                 if(graph != nullptr){
                     cout << "Algorytm Bellmana-Forda." << endl;
                     cout << "Macierz sasiedztwa:" << endl;
-                    printShortestPath(graph->BellmanFordAdjMatrix(source));
+                    setNode* VM = graph->BellmanFordAdjMatrix(source);
+                    printShortestPath(VM);
+                    if(graph->isNegativeCycleMatrix(VM)) cout << "Ujemny cykl." << endl;
+
                     cout << "Lista sasiedztwa:" << endl;
-                    printShortestPath(graph->BellmanFordAdjList(source));
+                    setNode* VL = graph->BellmanFordAdjList(source);
+                    printShortestPath(VL);
+                    if(graph->isNegativeCycleList(VL)) cout << "Ujemny cykl." << endl;      //na list zmienic
+
                 }else cout << "Graf nie zostal zaladowany." << endl;
                 break;
         }

@@ -126,19 +126,6 @@ setNode* DirectedGraph::BellmanFordAdjMatrix(int source) {
             }
         }
     }
-
-    for (int u = 0; u < verticesNumber; u++){
-        for (int v = 0; v < verticesNumber; v++){
-            if(adjacencyMatrix[u][v] != infinity) {
-                if (V[v].rank > V[u].rank + adjacencyMatrix[u][v] &&
-                    !(adjacencyMatrix[u][v] < 0 && V[u].rank < INT_MIN - adjacencyMatrix[u][v]) &&
-                    !(adjacencyMatrix[u][v] > 0 && V[u].rank > INT_MAX - adjacencyMatrix[u][v])) {
-                    if (V[v].rank > V[u].rank + adjacencyMatrix[u][v]) return nullptr;        //w Cormienie return false - jest ujemny cykl w grafie
-                }
-            }
-        }
-    }
-
     return V; //return true - nie ma ujemnego cyklu w grafie
 }
 
@@ -165,18 +152,35 @@ setNode *DirectedGraph::BellmanFordAdjList(int source) {
             }
         }
     }
+    return V; //return true - nie ma ujemnego cyklu w grafie
+}
 
+bool DirectedGraph::isNegativeCycleMatrix(setNode *V) {
+    for (int u = 0; u < verticesNumber; u++){
+        for (int v = 0; v < verticesNumber; v++){
+            if(adjacencyMatrix[u][v] != infinity) {
+                if (V[v].rank > V[u].rank + adjacencyMatrix[u][v] &&
+                    !(adjacencyMatrix[u][v] < 0 && V[u].rank < INT_MIN - adjacencyMatrix[u][v]) &&
+                    !(adjacencyMatrix[u][v] > 0 && V[u].rank > INT_MAX - adjacencyMatrix[u][v])) {
+                    if (V[v].rank > V[u].rank + adjacencyMatrix[u][v]) return true;        //w Cormienie return false - jest ujemny cykl w grafie
+                }
+            }
+        }
+    }
+    return false;
+}
+
+bool DirectedGraph::isNegativeCycleList(setNode *V) {
     for (int u = 0; u < verticesNumber; u++){
         listNode* v = adjacencyList[u];
         while(v) {
             if(V[v->vertex].rank > V[u].rank + v->cost &&
                !(v->cost < 0 && V[u].rank < INT_MIN - v->cost) &&
                !(v->cost > 0 && V[u].rank > INT_MAX - v->cost)){
-                if (V[v->vertex].rank > V[u].rank + v->cost) return nullptr;
+                if (V[v->vertex].rank > V[u].rank + v->cost) return true;
             }
             v = v->next;
         }
     }
-
-    return V; //return true - nie ma ujemnego cyklu w grafie
+    return false;
 }

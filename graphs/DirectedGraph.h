@@ -19,6 +19,8 @@ public:
     setNode* DijkstraAdjMatrix(int source);
     setNode* DijkstraAdjList(int source);
 
+    bool isNegativeCycleMatrix(setNode* V);         //wystarczylaby jedna metoda (dla jednej reprezentacji)
+    bool isNegativeCycleList(setNode* V);
     setNode* BellmanFordAdjMatrix(int source);
     setNode* BellmanFordAdjList(int source);
 
