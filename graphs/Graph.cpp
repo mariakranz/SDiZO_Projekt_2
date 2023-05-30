@@ -7,6 +7,8 @@
 
 
 Graph::Graph(int verticesNumber, int edgesNumber) {
+    this->verticesNumber = verticesNumber;
+    this->edgesNumber = edgesNumber;
     adjacencyMatrix = new int * [verticesNumber];                 //tworzenie macierzy sasiedztwa o odpowiednim rozmiarze
     for (int i = 0; i < verticesNumber; i++) {
         adjacencyMatrix[i] = new int [verticesNumber];
